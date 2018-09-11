@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhly.lottosplit.mapper.LotteryTypeDaoMapper">
+  <resultMap id="BaseResultMap" type="com.hhly.lottosplit.bo.LotteryTypeBO">
+    <id column="ID" property="id" />
+    <result column="LOTTERY_CODE"  property="lotteryCode" />
+    <result column="SPLIT_MAX_NUM"  property="splitMaxNum" />
+    <result column="SPLIT_MAX_AMOUNT" property="splitMaxAmount" />
+  </resultMap>
+  <select id="findLotteryTypeBOs" resultMap="BaseResultMap">
+  		/*MASTER*/
+	    SELECT 
+		    ID,
+			LOTTERY_CODE,
+			SPLIT_MAX_NUM,
+			SPLIT_MAX_AMOUNT
+	    FROM LOTTERY_TYPE WHERE LOTTERY_CODE IN
+	    <foreach collection="lotteryCodes" index="index" item="lotteryCode"
+			open="(" separator="," close=")">
+			#{lotteryCode}
+		</foreach>
+  </select>
+  
+</mapper>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper
+	namespace="com.hhly.lottosplit.mapper.TicketAlarmInfoDaoMapper">
+	<resultMap id="BaseResultMap"
+		type="com.hhly.lottosplit.persistence.ticket.po.TicketAlarmInfoPO">
+		<id column="ID" property="id" jdbcType="DECIMAL" />
+		<result column="TYPE_ID" property="typeId" jdbcType="DECIMAL" />
+		<result column="ALARM_TYPE" property="alarmType" jdbcType="DECIMAL" />
+		<result column="ALARM_CHILD" property="alarmChild" jdbcType="DECIMAL" />
+		<result column="ALARM_LEVEL" property="alarmLevel" jdbcType="DECIMAL" />
+		<result column="STATUS" property="status" jdbcType="DECIMAL" />
+		<result column="ALARM_INFO" property="alarmInfo" jdbcType="OTHER" />
+		<result column="REMARK" property="remark" jdbcType="OTHER" />
+		<result column="DEAL_BY" property="dealBy" jdbcType="OTHER" />
+		<result column="ALARM_TIME" property="alarmTime" jdbcType="TIMESTAMP" />
+		<result column="DEAL_TIME" property="dealTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="getAlarmConfig" parameterType="int" resultType="com.hhly.lottosplit.persistence.ticket.po.TicketAlarmConfigPO">
+		SELECT
+		ID,
+		ALARM_TYPE ALARMTYPE,
+		ALARM_CHILD ALARMCHILD,
+		STATUS,
+		ALARM_LEVEL ALARMLEVEL,
+		PARAMETER,
+		FORMAT
+		FROM TICKET_ALARM_CONFIG
+		WHERE ID = #{alarmConfigId}
+	</select>
+	
+	<insert id="addAlarmInfo" parameterType="com.hhly.lottosplit.persistence.ticket.po.TicketAlarmInfoPO">
+	    INSERT INTO TICKET_ALARM_INFO (TYPE_ID, ALARM_TYPE, 
+	      ALARM_CHILD, ALARM_LEVEL, STATUS, 
+	      ALARM_INFO, REMARK,ALARM_TIME)
+	    VALUES (#{typeId,jdbcType=DECIMAL}, #{alarmType,jdbcType=DECIMAL}, 
+	      #{alarmChild,jdbcType=DECIMAL}, #{alarmLevel,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+	      #{alarmInfo,jdbcType=OTHER}, #{remark,jdbcType=OTHER}, CURRENT_TIMESTAMP())
+  	</insert>
+</mapper>

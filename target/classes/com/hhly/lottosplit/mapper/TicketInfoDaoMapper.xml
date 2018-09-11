@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hhly.lottosplit.mapper.TicketInfoDaoMapper" >
+  
+	<!--                         COMMON                               -->
+  	<!-- sql公共结果集 -->
+  	<resultMap id="TicketResultMap" type="com.hhly.lottosplit.bo.TicketInfoBO">
+  	  <id property="id" column="id" jdbcType="BIGINT"/>
+  	  <result property="lotteryCode" column="lottery_code" jdbcType="INTEGER"/>
+  	  <result property="lotteryName" column="lottery_name" jdbcType="VARCHAR"/>
+  	  <result property="lotteryIssue" column="lottery_issue" jdbcType="VARCHAR"/>
+  	  <result property="userId" column="user_id" jdbcType="BIGINT"/>
+  	  <result property="ticketStatus" column="ticket_status" jdbcType="SMALLINT"/>
+  	  <result property="ticketMoney" column="ticket_money" jdbcType="DECIMAL"/>
+  	  <result property="channelId" column="channel_id" jdbcType="VARCHAR"/>
+  	  <result property="orderCode" column="order_code" jdbcType="VARCHAR"/>
+  	  <result property="winningStatus" column="winning_status" jdbcType="SMALLINT"/>
+  	  <result property="preBonus" column="pre_bonus" jdbcType="DECIMAL"/>
+  	  <result property="aftBonus" column="aft_bonus" jdbcType="DECIMAL"/>
+  	  <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+  	  <result property="endTicketTime" column="end_ticket_time" jdbcType="TIMESTAMP"/>
+  	  <result property="sendChannelTime" column="send_channel_time" jdbcType="TIMESTAMP"/>
+  	  <result property="comeOutTime" column="come_out_time" jdbcType="TIMESTAMP"/>
+  	  <result property="receiptTime" column="receipt_time" jdbcType="TIMESTAMP"/>
+  	  <result property="lotteryTime" column="lottery_time" jdbcType="TIMESTAMP"/>
+  	  <result property="contentType" column="content_type" jdbcType="INTEGER"/>
+  	  <result property="sendTime" column="send_time" jdbcType="TIMESTAMP"/>
+  	  <result property="buyScreen" column="buy_screen" jdbcType="VARCHAR"/>
+  	  <result property="lottoAdd" column="lotto_add" jdbcType="SMALLINT"/>
+  	  <result property="activitySource" column="activity_source" jdbcType="VARCHAR"/>
+  	  <result property="batchNum" column="batch_num" jdbcType="VARCHAR"/>
+  	  <result property="officialNum" column="official_num" jdbcType="VARCHAR"/>
+  	  <result property="winningDetail" column="winning_detail" jdbcType="VARCHAR"/>
+  	  <result property="multipleNum" column="multiple_num" jdbcType="INTEGER"/>
+  	  <result property="addedBonus" column="added_bonus" jdbcType="DECIMAL"/>
+  	  <result property="redCode" column="RED_CODE" jdbcType="VARCHAR"/>
+  	  <result property="thirdNum" column="third_num" jdbcType="VARCHAR"/>
+  	  <result property="channelRemark" column="channel_remark" jdbcType="VARCHAR"/>
+  	  <result property="ticketChange" column="ticket_change" jdbcType="VARCHAR"/>
+  	  <result property="ticketContent" column="ticket_content" jdbcType="VARCHAR"/>
+  	  <result property="receiptContent" column="receipt_content" jdbcType="VARCHAR"/>
+  	  <result property="ticketImg" column="ticket_img" jdbcType="VARCHAR"/>
+  	  <result property="ticketImgTxt" column="ticket_img_txt" jdbcType="VARCHAR"/>
+  	  <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+  	  <result property="modifyBy" column="modify_by" jdbcType="VARCHAR"/>
+  	  <result property="ticketRemark" column="ticket_remark" jdbcType="VARCHAR"/>
+  	  <result property="redeemCode" column="redeem_code" jdbcType="VARCHAR"/>
+  	  <association property="user" javaType="com.hhly.lottosplit.bo.LottoCustomerBO">
+  	  	  <result property="nickName" column="nick_name" jdbcType="VARCHAR"/>
+  	  	  <result property="accountName" column="account_name" jdbcType="VARCHAR"/>
+  	  	  <result property="cusMobile" column="cus_mobile" jdbcType="VARCHAR"/>
+  	  	  <result property="actualName" column="actual_name" jdbcType="VARCHAR"/>
+  	  	  <result property="idNum" column="id_num" jdbcType="VARCHAR"/>
+  	  	  <result property="cusMail" column="cus_mail" jdbcType="VARCHAR"/>
+  	  </association>
+  	  <association property="ticketChannel" javaType="com.hhly.lottosplit.bo.TicketChannelBO">
+  	  	  <result property="drawerName" column="drawer_name" jdbcType="VARCHAR"/>
+  	  </association>
+  	</resultMap>
+  
+  	
+  	<update id="updateTicketStatus" >
+       UPDATE TICKET_INFO 
+       SET TICKET_STATUS  = #{status},
+            MODIFY_TIME     = CURRENT_TIMESTAMP(),
+		    MODIFY_BY       = #{modifyBy}
+		WHERE ID IN 
+		(
+	  	   <foreach collection="ids" item="item" separator=",">
+	  	      #{item}  
+	  	   </foreach>
+  	   )
+  	</update>
+
+	<insert id="addTicketInfoList" parameterType="java.util.List">
+		
+			INSERT INTO TICKET_INFO 
+					(LOTTERY_CODE,
+					LOTTERY_NAME,
+					LOTTERY_ISSUE,
+					USER_ID,
+					TICKET_STATUS,
+					TICKET_MONEY,
+					ORDER_CODE,
+					WINNING_STATUS,
+					CREATE_TIME,
+					CONTENT_TYPE,
+					BUY_SCREEN,
+					LOTTO_ADD,
+					MULTIPLE_NUM,
+					TICKET_CONTENT,
+					LOTTERY_CHILD_CODE,
+					END_TICKET_TIME,
+					START_MATCH_TIME,
+					SALE_TIME,ORDER_DETAIL_ID,REDEEM_CODE,CHANNEL_ID) VALUES
+				<foreach collection="ticketInfoBOs" item="ticketInfo" index="idx" separator =",">
+					(
+					#{ticketInfo.lotteryCode},
+					#{ticketInfo.lotteryName},
+					#{ticketInfo.lotteryIssue},
+					#{ticketInfo.userId},
+					1,
+					#{ticketInfo.ticketMoney},
+					#{ticketInfo.orderCode},
+					1,
+					CURRENT_TIMESTAMP(),
+					#{ticketInfo.contentType},
+					#{ticketInfo.buyScreen},
+					#{ticketInfo.lottoAdd},
+					#{ticketInfo.multipleNum},
+					#{ticketInfo.ticketContent},
+					#{ticketInfo.lotteryChildCode},
+					#{ticketInfo.endTicketTime},
+					#{ticketInfo.startMatchtime},
+					#{ticketInfo.saleTime},
+					#{ticketInfo.orderDetailId},
+					#{ticketInfo.redeemCode},
+					#{ticketInfo.channelId}
+					)
+			</foreach>
+	</insert>
+	
+	<select id="findCountByOrderCode" resultType="java.lang.Integer">
+		/*MASTER*/
+		SELECT COUNT(ID) FROM TICKET_INFO WHERE ORDER_CODE = #{orderCode}
+	</select>
+</mapper>

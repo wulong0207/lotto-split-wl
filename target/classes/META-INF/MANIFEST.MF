@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Implementation-Title: lotto-split-wl
+Implementation-Version: 1.0
+Built-By: wul687
+Implementation-Vendor-Id: com.wl
+Build-Jdk: 1.8.0_131
+Implementation-URL: http://projects.spring.io/spring-boot/lotto-split-
+ wl/
+Created-By: Maven Integration for Eclipse
+Implementation-Vendor: Pivotal Software, Inc.
+

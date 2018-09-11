@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhly.lottosplit.mapper.LotteryIssueDaoMapper">
+	
+  	<select id="findLotteryIssue"
+	resultType="com.hhly.lottosplit.persistence.issue.po.LotteryIssuePO">
+		/*MASTER*/
+		SELECT ID id, LOTTERY_CODE lotteryCode, ISSUE_CODE issueCode, LOTTERY_NAME lotteryName, CURRENT_ISSUE currentIssue,
+		SALE_STATUS saleStatus, OFFICIAL_END_TIME officialEndTime, LOTTERY_TIME lotteryTime, SALE_TIME saleTime, SALE_END_TIME saleEndTime,
+		SALES_AMOUNT salesAmount, JACKPOT_AMOUNT jackpotAmount, DRAW_CODE drawCode, DRAW_DETAIL drawDetail, CREATE_BY createBy,
+		MODIFY_BY modifyBy, MODIFY_TIME modifyTime, UPDATE_TIME updateTime, CREATE_TIME createTime, REMARK remark,
+		OFFICIAL_START_TIME officialStartTime FROM LOTTERY_ISSUE WHERE LOTTERY_CODE = #{lotteryCode} and ISSUE_CODE = #{issueCode}
+	</select>
+	
+	<select id="findCurrentIssue"
+	resultType="com.hhly.lottosplit.persistence.issue.po.LotteryIssuePO">
+		/*MASTER*/
+		SELECT ID id, LOTTERY_CODE lotteryCode, ISSUE_CODE issueCode, LOTTERY_NAME lotteryName, CURRENT_ISSUE currentIssue,
+		SALE_STATUS saleStatus, OFFICIAL_END_TIME officialEndTime, LOTTERY_TIME lotteryTime, SALE_TIME saleTime, SALE_END_TIME saleEndTime,
+		SALES_AMOUNT salesAmount, JACKPOT_AMOUNT jackpotAmount, DRAW_CODE drawCode, DRAW_DETAIL drawDetail, CREATE_BY createBy,
+		MODIFY_BY modifyBy, MODIFY_TIME modifyTime, UPDATE_TIME updateTime, CREATE_TIME createTime, REMARK remark,
+		OFFICIAL_START_TIME officialStartTime FROM LOTTERY_ISSUE WHERE LOTTERY_CODE = #{lotteryCode} and CURRENT_ISSUE = 1 LIMIT 1
+	</select>
+	
+	<select id="findNextLotteryIssue" resultType="com.hhly.lottosplit.persistence.issue.po.LotteryIssuePO">
+		/*MASTER*/
+		SELECT ID id, LOTTERY_CODE lotteryCode, ISSUE_CODE issueCode, LOTTERY_NAME lotteryName, CURRENT_ISSUE currentIssue,
+		SALE_STATUS saleStatus, OFFICIAL_END_TIME officialEndTime, LOTTERY_TIME lotteryTime, SALE_TIME saleTime, SALE_END_TIME saleEndTime,
+		SALES_AMOUNT salesAmount, JACKPOT_AMOUNT jackpotAmount, DRAW_CODE drawCode, DRAW_DETAIL drawDetail, CREATE_BY createBy,
+		MODIFY_BY modifyBy, MODIFY_TIME modifyTime, UPDATE_TIME updateTime, CREATE_TIME createTime, REMARK remark,
+		OFFICIAL_START_TIME officialStartTime FROM LOTTERY_ISSUE WHERE LOTTERY_CODE = #{lotteryCode} and ISSUE_CODE > #{issueCode} ORDER BY ISSUE_CODE ASC LIMIT 1
+		
+	</select>
+	
+</mapper>

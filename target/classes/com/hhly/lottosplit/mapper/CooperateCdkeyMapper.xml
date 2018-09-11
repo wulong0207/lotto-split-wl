@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhly.lottosplit.mapper.CooperateCdkeyMapper">
+  <resultMap id="BaseResultMap" type="com.hhly.lottosplit.bo.CooperateCdkeyBO">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="lotto_cdkey" jdbcType="VARCHAR" property="lottoCdkey" />
+    <result column="my_cdkey" jdbcType="VARCHAR" property="myCdkey" />
+    <result column="lottery_code" jdbcType="INTEGER" property="lotteryCode" />
+    <result column="stauts" jdbcType="BIT" property="stauts" />
+    <result column="exchange_channel" jdbcType="INTEGER" property="exchangeChannel" />
+    <result column="over_time" jdbcType="TIMESTAMP" property="overTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_by" jdbcType="VARCHAR" property="modifyBy" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="ticket_channel" jdbcType="VARCHAR" property="ticketChannel" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    id, lotto_cdkey, my_cdkey, lottery_code, stauts, exchange_channel, over_time, create_by, 
+    create_time, modify_by, modify_time,ticket_channel
+  </sql>
+
+  <sql id="where_vo">
+    where 1=1
+    <if test="id != null">
+      and id=#{id,jdbcType=INTEGER}
+    </if>
+  </sql>
+
+  <select id="selectCount" resultType="int" parameterType="com.hhly.lottosplit.bo.CooperateCdkeyBO">
+    select
+    count(1)
+    from cooperate_cdkey
+    <include refid="where_vo" />
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cooperate_cdkey
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByMyCdkey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select 
+    <include refid="Base_Column_List" />
+    from cooperate_cdkey
+    where my_cdkey = #{myCdkey,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cooperate_cdkey
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+ 
+  <insert id="insert" parameterType="com.hhly.lottosplit.bo.CooperateCdkeyBO">
+    insert into cooperate_cdkey (id, lotto_cdkey, my_cdkey, 
+      lottery_code, stauts, exchange_channel, 
+      over_time, create_by, create_time, 
+      modify_by, modify_time)
+    values (#{id,jdbcType=INTEGER}, #{lottoCdkey,jdbcType=VARCHAR}, #{myCdkey,jdbcType=VARCHAR}, 
+      #{lotteryCode,jdbcType=SMALLINT}, #{stauts,jdbcType=BIT}, #{exchangeChannel,jdbcType=INTEGER}, 
+      #{overTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyBy,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hhly.lottosplit.bo.CooperateCdkeyBO">
+    insert into cooperate_cdkey
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="lottoCdkey != null">
+        lotto_cdkey,
+      </if>
+      <if test="myCdkey != null">
+        my_cdkey,
+      </if>
+      <if test="lotteryCode != null">
+        lottery_code,
+      </if>
+      <if test="stauts != null">
+        stauts,
+      </if>
+      <if test="exchangeChannel != null">
+        exchange_channel,
+      </if>
+      <if test="overTime != null">
+        over_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="modifyBy != null">
+        modify_by,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="lottoCdkey != null">
+        #{lottoCdkey,jdbcType=VARCHAR},
+      </if>
+      <if test="myCdkey != null">
+        #{myCdkey,jdbcType=VARCHAR},
+      </if>
+      <if test="lotteryCode != null">
+        #{lotteryCode,jdbcType=SMALLINT},
+      </if>
+      <if test="stauts != null">
+        #{stauts,jdbcType=BIT},
+      </if>
+      <if test="exchangeChannel != null">
+        #{exchangeChannel,jdbcType=INTEGER},
+      </if>
+      <if test="overTime != null">
+        #{overTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null">
+        #{modifyBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+
+ 
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.hhly.lottosplit.bo.CooperateCdkeyBO">
+    update cooperate_cdkey
+    <set>
+      <if test="lottoCdkey != null">
+        lotto_cdkey = #{lottoCdkey,jdbcType=VARCHAR},
+      </if>
+      <if test="myCdkey != null">
+        my_cdkey = #{myCdkey,jdbcType=VARCHAR},
+      </if>
+      <if test="lotteryCode != null">
+        lottery_code = #{lotteryCode,jdbcType=SMALLINT},
+      </if>
+      <if test="stauts != null">
+        stauts = #{stauts,jdbcType=BIT},
+      </if>
+      <if test="exchangeChannel != null">
+        exchange_channel = #{exchangeChannel,jdbcType=INTEGER},
+      </if>
+      <if test="overTime != null">
+        over_time = #{overTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null">
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hhly.lottosplit.bo.CooperateCdkeyBO">
+    update cooperate_cdkey
+    set lotto_cdkey = #{lottoCdkey,jdbcType=VARCHAR},
+      my_cdkey = #{myCdkey,jdbcType=VARCHAR},
+      lottery_code = #{lotteryCode,jdbcType=SMALLINT},
+      stauts = #{stauts,jdbcType=BIT},
+      exchange_channel = #{exchangeChannel,jdbcType=INTEGER},
+      over_time = #{overTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_by = #{modifyBy,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

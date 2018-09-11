@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hhly.lottosplit.mapper.OrderInfoDaoMapper" >
+
+	<resultMap type="com.hhly.lottosplit.bo.OrderInfoBO" id="orderInfoBOMap">
+			<id column="id" property="id"/>
+			<result column="orderCode" property="orderCode"/>
+			<result column="lotteryCode" property="lotteryCode"/>
+			<result column="lotteryName" property="lotteryName"/>
+			<result column="lotteryIssue" property="lotteryIssue"/>
+			<result column="buyTime" property="buyTime"/>
+			<result column="endTicketTime" property="endTicketTime"/>
+			<result column="endCheckTime" property="endCheckTime"/>
+			<result column="comeOutTime" property="comeOutTime"/>
+			<result column="lotteryTime" property="lotteryTime"/>
+			<result column="userId" property="userId"/>
+			<result column="orderAmount" property="orderAmount"/>
+			<result column="multipleNum" property="multipleNum"/>
+			<result column="splitNum" property="splitNum"/>
+			<result column="buyType" property="buyType"/>
+			<result column="payStatus" property="payStatus"/>
+			<result column="orderStatus" property="orderStatus"/>
+			<result column="winningStatus" property="winningStatus"/>
+			<result column="channelId" property="channelId"/>
+			<result column="buyScreen" property="buyScreen"/>
+			<result column="lottoAdd" property="lottoAdd"/>
+			<result property="redeemCode" column="redeemCode" jdbcType="VARCHAR"/>
+			
+			<collection property="detailBOs" ofType="com.hhly.lottosplit.bo.OrderDetailBO" resultMap="orderDetailBOMap" /><!--两种方式的不同之处在这里，自己分析就可以知道-->
+	</resultMap>
+	
+	<resultMap type="com.hhly.lottosplit.bo.OrderDetailBO" id="orderDetailBOMap">
+		<id column="od_id" property="id" />
+		<result column="plan_content" property="planContent" />
+		<result column="multiple" property="multiple" />
+		<result column="amount" property="amount" />
+		<result column="play_intro" property="playIntro" />
+		<result column="code_way" property="codeWay" />
+		<result column="content_type" property="contentType" />
+		<result column="betting_content_url" property="bettingContentUrl" />
+		<result column="buy_screen" property="buyScreen" />
+		<result column="lottery_child_code" property="lotteryChildCode" />
+		<result column="buy_number" property="buyNumber" />
+	</resultMap>
+  
+	<select id="findOrderDetail" resultType="com.hhly.lottosplit.bo.OrderDetailBO">
+		/*MASTER*/
+	    SELECT ID id,
+	       PLAN_CONTENT plancontent,
+	       MULTIPLE multiple,
+	       AMOUNT amount,
+	       PLAY_INTRO playintro,
+	       CODE_WAY codeway,
+	       CONTENT_TYPE contenttype,
+	       BETTING_CONTENT_URL BETTINGCONTENTURL,
+	       BUY_SCREEN buyScreen,
+	       LOTTERY_CHILD_CODE lotteryChildCode,
+	       BUY_NUMBER buyNumber
+        FROM ORDER_DETAIL 
+	    WHERE ORDER_CODE = #{orderCode}
+	</select>
+	
+  	
+  	<update id="updateOrderStatus">
+  	 UPDATE  ORDER_INFO 
+  	 SET  ORDER_STATUS = #{orderStatus},
+  	  MODIFY_BY = #{modifyBy},
+  	  MODIFY_TIME = CURRENT_TIMESTAMP(),
+  	  UPDATE_TIME = CURRENT_TIMESTAMP()
+  	  <if test="splitNum!=null">
+  	  	,SPLIT_NUM = #{splitNum}
+  	  </if>
+  	 WHERE ID = #{orderId}
+  	</update>
+  	
+     <update id="updateOrderStatusSplitting">
+	     UPDATE  ORDER_INFO 
+	  	 SET  ORDER_STATUS = 3,
+	  	  MODIFY_BY = 'system',
+	  	  MODIFY_TIME = CURRENT_TIMESTAMP(),
+	  	  UPDATE_TIME = CURRENT_TIMESTAMP()
+	  	 WHERE ID = #{orderId}
+	  	 and ORDER_STATUS in (1,2)
+     </update>
+     
+	<select id="getOrderInfoS" resultMap="orderInfoBOMap">
+		/*MASTER*/
+		SELECT o.ID id, o.ORDER_CODE orderCode, o.LOTTERY_CODE lotteryCode,
+		o.LOTTERY_NAME lotteryName,
+		o.LOTTERY_ISSUE lotteryIssue, o.BUY_TIME buyTime, o.END_TICKET_TIME endTicketTime,
+		o.END_CHECK_TIME endCheckTime, o.COME_OUT_TIME comeOutTime,
+		o.LOTTERY_TIME lotteryTime,
+		o.USER_ID userId, o.ORDER_AMOUNT orderAmount, o.MULTIPLE_NUM multipleNum,
+		o.SPLIT_NUM splitNum,
+		o.BUY_TYPE buyType, o.PAY_STATUS payStatus, o.ORDER_STATUS orderStatus,
+		o.WINNING_STATUS winningStatus, o.CHANNEL_ID channelId,
+		o.BUY_SCREEN buyScreen,
+		o.is_dlt_add lottoAdd,
+		o.redeem_code redeemCode,
+		d.ID od_id,
+		d.PLAN_CONTENT plan_content,
+		d.MULTIPLE multiple,
+		d.AMOUNT amount,
+		d.PLAY_INTRO play_intro,
+		d.CODE_WAY code_way,
+		d.CONTENT_TYPE content_type,
+		d.BETTING_CONTENT_URL betting_content_url,
+		d.BUY_SCREEN buy_screen,
+		d.LOTTERY_CHILD_CODE lottery_child_code,
+		d.BUY_NUMBER buy_number FROM ORDER_INFO o INNER JOIN ORDER_DETAIL d on o.ORDER_CODE
+		= d.ORDER_CODE WHERE o.ORDER_CODE IN
+		<foreach collection="orderCodes" index="index" item="orderCode"
+			open="(" separator="," close=")">
+			#{orderCode}
+		</foreach> 
+	</select>
+	
+	<select id="getOrderCodes" resultType="java.lang.String">
+		/*MASTER*/
+		SELECT t.ORDER_CODE FROM ORDER_INFO t WHERE t.PAY_STATUS = 2 AND t.ORDER_STATUS = 2 
+		<if test="buyType!=null">
+			AND t.BUY_TYPE = #{buyType}
+		</if> 
+	</select>
+	
+	<select id="getByOrderCode" resultType="com.hhly.lottosplit.bo.OrderInfoBO">
+		/*MASTER*/
+		SELECT o.id id, o.order_code orderCode,o.order_status orderStatus,o.pay_status payStatus,o.redeem_code redeemCode FROM ORDER_INFO o WHERE ORDER_CODE = #{orderCode} 
+	</select>
+	
+</mapper>

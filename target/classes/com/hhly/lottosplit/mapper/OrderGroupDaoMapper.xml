@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hhly.lottosplit.mapper.OrderGroupDaoMapper">
+    <resultMap id="BaseResultMap" type="com.hhly.lottosplit.persistence.order.po.OrderGroupPO">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="order_code" jdbcType="VARCHAR" property="orderCode"/>
+        <result column="grpbuy_status" jdbcType="BIT" property="grpbuyStatus"/>
+        <result column="min_buy_ratio" jdbcType="DECIMAL" property="minBuyRatio"/>
+        <result column="min_buy_amount" jdbcType="DECIMAL" property="minBuyAmount"/>
+        <result column="guarantee_ratio" jdbcType="DECIMAL" property="guaranteeRatio"/>
+        <result column="guarantee_amount" jdbcType="DECIMAL" property="guaranteeAmount"/>
+        <result column="visible_type" jdbcType="BIT" property="visibleType"/>
+        <result column="commission_ratio" jdbcType="DECIMAL" property="commissionRatio"/>
+        <result column="commission_amount" jdbcType="DECIMAL" property="commissionAmount"/>
+        <result column="apply_way" jdbcType="BIT" property="applyWay"/>
+        <result column="apply_code" jdbcType="VARCHAR" property="applyCode"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="is_top" jdbcType="BIT" property="isTop"/>
+        <result column="is_recommend" jdbcType="BIT" property="isRecommend"/>
+        <result column="progress" jdbcType="DECIMAL" property="progress"/>
+        <result column="progress_amount" jdbcType="DECIMAL" property="progressAmount"/>
+        <result column="buy_count" jdbcType="INTEGER" property="buyCount"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modify_by" jdbcType="VARCHAR" property="modifyBy"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, user_id, order_code, grpbuy_status, min_buy_ratio, min_buy_amount, guarantee_ratio,
+        guarantee_amount, visible_type, commission_ratio, commission_amount, apply_way, apply_code,
+        title, description, is_top, is_recommend, progress, progress_amount, buy_count, create_time,
+        modify_by, update_time, remark
+    </sql>
+
+    <select id="selectByOrderCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from order_group
+        where order_code = #{orderCode,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        DELETE FROM order_group
+        WHERE id = #{id,jdbcType=INTEGER}
+    </delete>
+
+    <insert id="insert" parameterType="com.hhly.lottosplit.persistence.order.po.OrderGroupPO">
+        INSERT INTO order_group (id, user_id, order_code,
+                                 grpbuy_status, min_buy_ratio, min_buy_amount,
+                                 guarantee_ratio, guarantee_amount, visible_type,
+                                 commission_ratio, commission_amount, apply_way,
+                                 apply_code, title, description,
+                                 is_top, is_recommend, progress,
+                                 progress_amount, buy_count, create_time,
+                                 modify_by, update_time, remark
+        )
+        VALUES (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{orderCode,jdbcType=VARCHAR},
+                                        #{grpbuyStatus,jdbcType=BIT}, #{minBuyRatio,jdbcType=DECIMAL},
+                                        #{minBuyAmount,jdbcType=DECIMAL},
+                                        #{guaranteeRatio,jdbcType=DECIMAL}, #{guaranteeAmount,jdbcType=DECIMAL},
+                                        #{visibleType,jdbcType=BIT},
+                                        #{commissionRatio,jdbcType=DECIMAL}, #{commissionAmount,jdbcType=DECIMAL},
+            #{applyWay,jdbcType=BIT},
+            #{applyCode,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},
+            #{isTop,jdbcType=BIT}, #{isRecommend,jdbcType=BIT}, #{progress,jdbcType=DECIMAL},
+            #{progressAmount,jdbcType=DECIMAL}, #{buyCount,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+                #{modifyBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.hhly.lottosplit.persistence.order.po.OrderGroupPO">
+        insert into order_group
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="orderCode != null">
+                order_code,
+            </if>
+            <if test="grpbuyStatus != null">
+                grpbuy_status,
+            </if>
+            <if test="minBuyRatio != null">
+                min_buy_ratio,
+            </if>
+            <if test="minBuyAmount != null">
+                min_buy_amount,
+            </if>
+            <if test="guaranteeRatio != null">
+                guarantee_ratio,
+            </if>
+            <if test="guaranteeAmount != null">
+                guarantee_amount,
+            </if>
+            <if test="visibleType != null">
+                visible_type,
+            </if>
+            <if test="commissionRatio != null">
+                commission_ratio,
+            </if>
+            <if test="commissionAmount != null">
+                commission_amount,
+            </if>
+            <if test="applyWay != null">
+                apply_way,
+            </if>
+            <if test="applyCode != null">
+                apply_code,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="isTop != null">
+                is_top,
+            </if>
+            <if test="isRecommend != null">
+                is_recommend,
+            </if>
+            <if test="progress != null">
+                progress,
+            </if>
+            <if test="progressAmount != null">
+                progress_amount,
+            </if>
+            <if test="buyCount != null">
+                buy_count,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="modifyBy != null">
+                modify_by,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null">
+                #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="orderCode != null">
+                #{orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="grpbuyStatus != null">
+                #{grpbuyStatus,jdbcType=BIT},
+            </if>
+            <if test="minBuyRatio != null">
+                #{minBuyRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="minBuyAmount != null">
+                #{minBuyAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="guaranteeRatio != null">
+                #{guaranteeRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="guaranteeAmount != null">
+                #{guaranteeAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="visibleType != null">
+                #{visibleType,jdbcType=BIT},
+            </if>
+            <if test="commissionRatio != null">
+                #{commissionRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="commissionAmount != null">
+                #{commissionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="applyWay != null">
+                #{applyWay,jdbcType=BIT},
+            </if>
+            <if test="applyCode != null">
+                #{applyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="isTop != null">
+                #{isTop,jdbcType=BIT},
+            </if>
+            <if test="isRecommend != null">
+                #{isRecommend,jdbcType=BIT},
+            </if>
+            <if test="progress != null">
+                #{progress,jdbcType=DECIMAL},
+            </if>
+            <if test="progressAmount != null">
+                #{progressAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="buyCount != null">
+                #{buyCount,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyBy != null">
+                #{modifyBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.hhly.lottosplit.persistence.order.po.OrderGroupPO">
+        update order_group
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=INTEGER},
+            </if>
+            <if test="orderCode != null">
+                order_code = #{orderCode,jdbcType=VARCHAR},
+            </if>
+            <if test="grpbuyStatus != null">
+                grpbuy_status = #{grpbuyStatus,jdbcType=BIT},
+            </if>
+            <if test="minBuyRatio != null">
+                min_buy_ratio = #{minBuyRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="minBuyAmount != null">
+                min_buy_amount = #{minBuyAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="guaranteeRatio != null">
+                guarantee_ratio = #{guaranteeRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="guaranteeAmount != null">
+                guarantee_amount = #{guaranteeAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="visibleType != null">
+                visible_type = #{visibleType,jdbcType=BIT},
+            </if>
+            <if test="commissionRatio != null">
+                commission_ratio = #{commissionRatio,jdbcType=DECIMAL},
+            </if>
+            <if test="commissionAmount != null">
+                commission_amount = #{commissionAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="applyWay != null">
+                apply_way = #{applyWay,jdbcType=BIT},
+            </if>
+            <if test="applyCode != null">
+                apply_code = #{applyCode,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="isTop != null">
+                is_top = #{isTop,jdbcType=BIT},
+            </if>
+            <if test="isRecommend != null">
+                is_recommend = #{isRecommend,jdbcType=BIT},
+            </if>
+            <if test="progress != null">
+                progress = #{progress,jdbcType=DECIMAL},
+            </if>
+            <if test="progressAmount != null">
+                progress_amount = #{progressAmount,jdbcType=DECIMAL},
+            </if>
+            <if test="buyCount != null">
+                buy_count = #{buyCount,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyBy != null">
+                modify_by = #{modifyBy,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.hhly.lottosplit.persistence.order.po.OrderGroupPO">
+        UPDATE order_group
+        SET user_id           = #{userId,jdbcType=INTEGER},
+            order_code        = #{orderCode,jdbcType=VARCHAR},
+            grpbuy_status     = #{grpbuyStatus,jdbcType=BIT},
+            min_buy_ratio     = #{minBuyRatio,jdbcType=DECIMAL},
+            min_buy_amount    = #{minBuyAmount,jdbcType=DECIMAL},
+            guarantee_ratio   = #{guaranteeRatio,jdbcType=DECIMAL},
+            guarantee_amount  = #{guaranteeAmount,jdbcType=DECIMAL},
+            visible_type      = #{visibleType,jdbcType=BIT},
+            commission_ratio  = #{commissionRatio,jdbcType=DECIMAL},
+            commission_amount = #{commissionAmount,jdbcType=DECIMAL},
+            apply_way         = #{applyWay,jdbcType=BIT},
+            apply_code        = #{applyCode,jdbcType=VARCHAR},
+            title             = #{title,jdbcType=VARCHAR},
+            description       = #{description,jdbcType=VARCHAR},
+            is_top            = #{isTop,jdbcType=BIT},
+            is_recommend      = #{isRecommend,jdbcType=BIT},
+            progress          = #{progress,jdbcType=DECIMAL},
+            progress_amount   = #{progressAmount,jdbcType=DECIMAL},
+            buy_count         = #{buyCount,jdbcType=INTEGER},
+            create_time       = #{createTime,jdbcType=TIMESTAMP},
+            modify_by         = #{modifyBy,jdbcType=VARCHAR},
+            update_time       = #{updateTime,jdbcType=TIMESTAMP},
+            remark            = #{remark,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

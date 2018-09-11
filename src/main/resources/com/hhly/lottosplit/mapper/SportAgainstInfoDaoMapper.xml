@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hhly.lottosplit.mapper.SportAgainstInfoDaoMapper" >
+  <resultMap id="BaseResultMap" type="com.hhly.lottosplit.bo.SportAgainstInfoBO" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="LOTTERY_CODE" property="lotteryCode" jdbcType="DECIMAL" />
+    <result column="ISSUE_CODE" property="issueCode" jdbcType="VARCHAR" />
+    <result column="SPORT_MATCH_INFO_ID" property="sportMatchInfoId" jdbcType="DECIMAL" />
+    <result column="MATCH_ANALYSIS_URL" property="matchAnalysisUrl" jdbcType="VARCHAR" />
+    <result column="MATCH_INFO_URL" property="matchInfoUrl" jdbcType="VARCHAR" />
+    <result column="IS_RECOMMEND" property="isRecommend" jdbcType="DECIMAL" />
+    <result column="MATCH_LABEL_COLOR" property="matchLabelColor" jdbcType="VARCHAR" />
+    <result column="OFFICIAL_MATCH_CODE" property="officialMatchCode" jdbcType="VARCHAR" />
+    <result column="SYSTEM_CODE" property="systemCode" jdbcType="VARCHAR" />
+    <result column="MATCH_STATUS" property="matchStatus" jdbcType="DECIMAL" />
+    <result column="OFFICIAL_ID" property="officialId" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="SALE_END_TIME" property="saleEndTime" jdbcType="TIMESTAMP" />
+    <result column="IS_NEUTRAL" property="isNeutral" jdbcType="DECIMAL" />
+    <result column="STADIUM" property="stadium" jdbcType="VARCHAR" />
+    <result column="WEATHER" property="weather" jdbcType="VARCHAR" />
+    <result column="MODIFY_BY" property="modifyBy" jdbcType="VARCHAR" />
+    <result column="MODIFY_TIME" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <sql id="Base_Column_List" >
+    ID, LOTTERY_CODE, ISSUE_CODE, SPORT_MATCH_INFO_ID,
+    MATCH_ANALYSIS_URL, MATCH_INFO_URL, IS_RECOMMEND, MATCH_LABEL_COLOR, OFFICIAL_MATCH_CODE, 
+    SYSTEM_CODE, MATCH_STATUS, OFFICIAL_ID, START_TIME, SALE_END_TIME, IS_NEUTRAL, STADIUM, 
+    WEATHER, MODIFY_BY, MODIFY_TIME, CREATE_BY, UPDATE_TIME, CREATE_TIME, REMARK
+  </sql>
+</mapper>
